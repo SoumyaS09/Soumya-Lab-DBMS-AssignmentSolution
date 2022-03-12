@@ -39,3 +39,14 @@ Select cus_name, cus_gender from customer_table where cus_name like "A%" or cus_
 
 -- Q 9
 call ecommerce_rating;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ecommerce_rating`()
+BEGIN
+select supplier_details.supp_id, supplier_details.supp_name, rating_table.rat_ratstars,
+case
+when rating_table.rat_ratstars > 4 then "Genuine Supplier"
+when rating_table.rat_ratstars > 2 then "Average Supplier"
+else "Supplier should not be considered"
+end as verdict
+from rating_table
+inner join supplier_details  on supplier_details.supp_id = rating_table.supp_id;
+END
